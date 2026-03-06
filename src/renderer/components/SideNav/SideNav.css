@@ -197,6 +197,11 @@
   margin-block: 0.3em;
 }
 
+.hidden {
+  inline-size: 1px;
+  overflow: hidden;
+}
+
 @media only screen and (width > 680px) {
   ::-webkit-scrollbar {
     inline-size: 10px;
@@ -259,6 +264,12 @@
   .closed.hiddenLabels {
     inline-size: 100%;
   }
+
+  .hidden {
+    inline-size: 0;
+    block-size: 0;
+    overflow: hidden;
+  }
 }
 
 @media only screen and (width <= 400px) {
@@ -273,4 +284,3 @@
     display: block;
   }
 }
-

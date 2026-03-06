@@ -24,6 +24,8 @@ Minimize: Minimize
 Close: Close
 Compact side navigation: Compact side navigation
 Expand side navigation: Expand side navigation
+Hide side navigation: Hide side navigation
+Show side navigation: Show side navigation
 Back: Back
 Forward: Forward
 Right-click or hold to see history: Right-click or hold to see history
@@ -324,6 +326,7 @@ Settings:
     Disable Smooth Scrolling: Disable Smooth Scrolling
     UI Scale: UI Scale
     Hide Side Bar Labels: Hide Side Bar Labels
+    Hide Side Bar: Hide Side Bar
     Hide FreeTube Header Logo: Hide FreeTube Header Logo
     Base Theme:
       Base Theme: Base Theme

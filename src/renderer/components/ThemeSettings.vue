@@ -32,6 +32,12 @@
           @change="updateHideLabelsSideBar"
         />
         <FtToggleSwitch
+          :label="$t('Settings.Theme Settings.Hide Side Bar')"
+          compact
+          :default-value="hideSideBar"
+          @change="updateHideSideBar"
+        />
+        <FtToggleSwitch
           :label="$t('Settings.Theme Settings.Hide FreeTube Header Logo')"
           compact
           :default-value="hideHeaderLogo"
@@ -248,6 +254,18 @@ function handleExpandSideBar(value) {
 const hideLabelsSideBar = computed(() => {
   return store.getters.getHideLabelsSideBar
 })
+
+/** @type {import('vue').ComputedRef<boolean>} */
+const hideSideBar = computed(() => {
+  return store.getters.getHideSideBar
+})
+
+/**
+ * @param {boolean} value
+ */
+function updateHideSideBar(value) {
+  store.dispatch('updateHideSideBar', value)
+}
 
 /**
  * @param {boolean} value

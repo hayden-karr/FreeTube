@@ -1,7 +1,7 @@
 <template>
   <FtFlexBox
     class="sideNav"
-    :class="[{closed: !isOpen}, applyHiddenLabels]"
+    :class="[{closed: !isOpen && !hideSideBar, hidden: isHidden}, applyHiddenLabels]"
     role="navigation"
   >
     <div
@@ -338,6 +338,10 @@ const applyHiddenLabels = computed(() => {
     hiddenLabels: hideText.value
   }
 })
+
+const hideSideBar = computed(() => store.getters.getHideSideBar)
+
+const isHidden = computed(() => hideSideBar.value && !isOpen.value)
 
 const historyTitle = computed(() => {
   const shortcut = process.platform === 'darwin'

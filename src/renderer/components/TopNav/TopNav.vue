@@ -157,6 +157,9 @@ const enableSearchSuggestions = computed(() => store.getters.getEnableSearchSugg
 const barColor = computed(() => store.getters.getBarColor)
 
 const expandCollapseSideBarLabel = computed(() => {
+  if (store.getters.getHideSideBar) {
+    return store.getters.getIsSideNavOpen ? t('Hide side navigation') : t('Show side navigation')
+  }
   return store.getters.getIsSideNavOpen ? t('Compact side navigation') : t('Expand side navigation')
 })
 
@@ -634,7 +637,7 @@ onMounted(() => {
 
   // Store is not up-to-date when the component mounts, so we use timeout.
   setTimeout(() => {
-    if (store.getters.getExpandSideBar) {
+    if (store.getters.getExpandSideBar && !store.getters.getHideSideBar) {
       toggleSideNav()
     }
   }, 0)

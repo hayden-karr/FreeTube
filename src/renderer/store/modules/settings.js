@@ -220,6 +220,7 @@ const state = {
   hideUploader: false,
   unsubscriptionPopupStatus: false,
   hideLabelsSideBar: false,
+  hideSideBar: false,
   hideChapters: false,
   showDistractionFreeTitles: false,
   landingPage: 'subscriptions',
