@@ -194,6 +194,24 @@
   @media only screen and (width >= 1051px) {
     &.useTheatreMode {
       @include theatre-mode-template;
+
+      .videoArea {
+        // Counteract the .routerView margin-inline: 10px to make the video edge-to-edge
+        margin-inline: -10px;
+
+        .videoPlayer {
+          max-inline-size: none;
+          margin-inline: 0;
+        }
+
+        .videoAreaMargin {
+          margin-block-end: 8px;
+        }
+      }
+
+      .sidebarArea {
+        min-inline-size: 340px;
+      }
     }
   }
 
