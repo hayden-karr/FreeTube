@@ -12,6 +12,7 @@ import CommentSection from '../../components/CommentSection/CommentSection.vue'
 import WatchVideoLiveChat from '../../components/WatchVideoLiveChat/WatchVideoLiveChat.vue'
 import WatchVideoPlaylist from '../../components/watch-video-playlist/watch-video-playlist.vue'
 import WatchVideoRecommendations from '../../components/WatchVideoRecommendations/WatchVideoRecommendations.vue'
+import QueuePanel from '../../components/QueuePanel/QueuePanel.vue'
 import FtAgeRestricted from '../../components/FtAgeRestricted/FtAgeRestricted.vue'
 import packageDetails from '../../../../package.json'
 import {
@@ -70,6 +71,7 @@ export default defineComponent({
     'watch-video-live-chat': WatchVideoLiveChat,
     'watch-video-playlist': WatchVideoPlaylist,
     'watch-video-recommendations': WatchVideoRecommendations,
+    'queue-panel': QueuePanel,
     'ft-age-restricted': FtAgeRestricted
   },
   beforeRouteLeave: async function (to, from, next) {
@@ -244,8 +246,11 @@ export default defineComponent({
     hideVideoLikesAndDislikes: function () {
       return this.$store.getters.getHideVideoLikesAndDislikes
     },
+    hasQueueVideos: function () {
+      return this.$store.getters.getQueueCount > 0
+    },
     theatrePossible: function () {
-      return !this.hideRecommendedVideos || (!this.hideLiveChat && this.isLive) || this.watchingPlaylist
+      return !this.hideRecommendedVideos || (!this.hideLiveChat && this.isLive) || this.watchingPlaylist || this.hasQueueVideos
     },
     autoplayPossible: function () {
       return (!this.watchingPlaylist && !this.hideRecommendedVideos && !!this.nextRecommendedVideo) ||
@@ -1370,6 +1375,15 @@ export default defineComponent({
 
       let nextVideoId = null
       if (!this.watchingPlaylist) {
+        // Check queue first, then fall back to recommended
+        const nextQueueVideo = this.$store.getters.getNextQueueVideo
+        if (nextQueueVideo) {
+          this.$store.dispatch('playNextFromQueue')
+          this.$router.push({ path: `/watch/${nextQueueVideo.videoId}` })
+          showToast(this.$t('Queue.Playing from Queue'))
+          return
+        }
+
         nextVideoId = this.nextRecommendedVideo?.videoId
         if (!nextVideoId) {
           return
@@ -1412,11 +1426,18 @@ export default defineComponent({
     handleSkipToNext: function () {
       if (this.watchingPlaylist) {
         this.$refs.watchVideoPlaylist?.playNextVideo()
-      } else if (!this.hideRecommendedVideos && this.nextRecommendedVideo) {
-        this.$router.push({
-          path: `/watch/${this.nextRecommendedVideo.videoId}`
-        })
-        showToast(this.$t('Playing Next Video'))
+      } else {
+        const nextQueueVideo = this.$store.getters.getNextQueueVideo
+        if (nextQueueVideo) {
+          this.$store.dispatch('playNextFromQueue')
+          this.$router.push({ path: `/watch/${nextQueueVideo.videoId}` })
+          showToast(this.$t('Queue.Playing from Queue'))
+        } else if (!this.hideRecommendedVideos && this.nextRecommendedVideo) {
+          this.$router.push({
+            path: `/watch/${this.nextRecommendedVideo.videoId}`
+          })
+          showToast(this.$t('Playing Next Video'))
+        }
       }
     },
 

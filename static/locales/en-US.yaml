@@ -854,6 +854,8 @@ Video:
   Copy Invidious Channel Link: Copy Invidious Channel Link
   Hide Channel: Hide Channel
   Unhide Channel: Show Channel
+  Add to Queue: Add to Queue
+  Added to Queue: Added to Queue
   Views: Views
   Loop Playlist: Loop Playlist
   Shuffle Playlist: Shuffle Playlist
@@ -1209,3 +1211,11 @@ KeyboardShortcutPrompt:
   End: Seek to the end of the video
   Skip to Next Video: Skip to the next video in a playlist or next recommended video
   Skip to Previous Video: Skip to the previous video in a playlist
+
+Queue:
+  Queue: Queue
+  Clear Queue: Clear Queue
+  Remove from Queue: Remove from Queue
+  Playing from Queue: Playing from Queue
+  Videos in Queue: '({count})'
+  Queue is Empty: Queue is empty

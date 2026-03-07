@@ -1,0 +1,97 @@
+.queueHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 8px;
+  padding-inline: 12px;
+}
+
+.queueTitle {
+  margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.queueCount {
+  font-weight: normal;
+  font-size: 0.85em;
+  color: var(--tertiary-text-color);
+}
+
+.clearQueueButton {
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid var(--primary-border-color);
+  border-radius: 4px;
+  padding-block: 4px;
+  padding-inline: 8px;
+  font-size: 0.85em;
+  color: var(--primary-text-color);
+  transition: background 0.2s ease-out;
+  white-space: nowrap;
+}
+
+.clearQueueButton:hover {
+  background-color: var(--side-nav-hover-color);
+  color: var(--side-nav-hover-text-color);
+  transition: background 0.2s ease-in;
+}
+
+.queueEmpty {
+  padding-block: 16px;
+  padding-inline: 12px;
+  text-align: center;
+  color: var(--tertiary-text-color);
+}
+
+.queueItemsWrapper {
+  max-block-size: 500px;
+  overflow-y: auto;
+}
+
+.queueItem {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: center;
+  transition: background 0.2s ease-out;
+}
+
+.queueItem:not(:last-child) {
+  margin-block-end: 8px;
+}
+
+.queueItem:hover {
+  background-color: var(--side-nav-hover-color);
+  color: var(--side-nav-hover-text-color);
+  transition: background 0.2s ease-in;
+}
+
+.currentQueueItem {
+  background-color: rgb(128 128 128 / 20%);
+}
+
+.queueIndex {
+  text-align: center;
+  margin: 0;
+  font-size: 0.85em;
+  color: var(--tertiary-text-color);
+}
+
+.queueIndexIcon {
+  font-size: 0.75em;
+}
+
+.removeFromQueueButton {
+  position: absolute;
+  inset-inline-end: 4px;
+  inset-block-start: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.queueItem:hover .removeFromQueueButton {
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
