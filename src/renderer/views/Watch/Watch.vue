@@ -214,6 +214,11 @@
         :class="{ theatrePlaylist: useTheatreMode }"
         @pause-player="pausePlayer"
       />
+      <queue-panel
+        v-if="!isLoading && hasQueueVideos"
+        class="watchVideoSideBar watchVideoPlaylist"
+        :class="{ theatrePlaylist: useTheatreMode }"
+      />
       <watch-video-recommendations
         v-if="!isLoading && !hideRecommendedVideos"
         :data="recommendedVideos"

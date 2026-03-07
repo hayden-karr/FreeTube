@@ -257,6 +257,10 @@ export default defineComponent({
             ? this.$t('Video.Remove From History')
             : this.$t('Video.Mark As Watched'),
           value: 'history'
+        },
+        {
+          label: this.$t('Video.Add to Queue'),
+          value: 'addToQueue'
         }
       ]
       if (!this.hideSharingActions) {
@@ -709,6 +713,17 @@ export default defineComponent({
         case 'unhideChannel':
           this.unhideChannel(this.channelName, this.channelId)
           break
+        case 'addToQueue':
+          this.addVideoToQueue({
+            videoId: this.id,
+            title: this.title,
+            author: this.channelName,
+            authorId: this.channelId,
+            lengthSeconds: this.lengthSeconds,
+            published: this.published,
+          })
+          showToast(this.$t('Video.Added to Queue'))
+          break
       }
     },
 
@@ -902,6 +917,7 @@ export default defineComponent({
       'showAddToPlaylistPromptForManyVideos',
       'addVideo',
       'removeVideo',
+      'addVideoToQueue',
     ])
   }
 })
