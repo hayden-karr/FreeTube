@@ -46,6 +46,14 @@
       />
       <span class="playlistIcons">
         <ft-icon-button
+          :title="$t('Video.Add to Queue')"
+          :icon="['fas', 'list']"
+          class="addToQueueIcon"
+          :padding="appearance === `watchPlaylistItem` ? 5 : 6"
+          :size="appearance === `watchPlaylistItem` ? 14 : 18"
+          @click="addToQueue"
+        />
+        <ft-icon-button
           v-if="showPlaylists"
           :title="$t('User Playlists.Add to Playlist')"
           :icon="['fas', 'plus']"

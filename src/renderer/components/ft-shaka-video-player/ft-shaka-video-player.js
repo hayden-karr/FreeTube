@@ -138,6 +138,10 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    hasQueueVideos: {
+      type: Boolean,
+      default: false
+    },
     vrProjection: {
       type: String,
       default: null
@@ -799,7 +803,7 @@ export default defineComponent({
 
       /** @type {shaka.extern.UIConfiguration} */
       const uiConfig = {
-        controlPanelElements: props.watchingPlaylist ? controlPanelElementsWithSkipButtons : controlPanelElements,
+        controlPanelElements: (props.watchingPlaylist || props.hasQueueVideos) ? controlPanelElementsWithSkipButtons : controlPanelElements,
         overflowMenuButtons: [],
 
         // only set this to label when we actually have labels, so that the warning doesn't show up

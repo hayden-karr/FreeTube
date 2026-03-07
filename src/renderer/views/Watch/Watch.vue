@@ -37,6 +37,7 @@
           :autoplay-possible="autoplayPossible"
           :autoplay-enabled="autoplayEnabled"
           :watching-playlist="watchingPlaylist"
+          :has-queue-videos="hasQueueVideos"
           :vr-projection="vrProjection"
           :start-in-fullscreen="startNextVideoInFullscreen"
           :start-in-fullwindow="startNextVideoInFullwindow"

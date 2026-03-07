@@ -1441,9 +1441,18 @@ export default defineComponent({
       }
     },
 
-    // Skip to the previous video in a playlist
+    // Skip to the previous video in a playlist or queue
     handleSkipToPrev: function () {
-      this.$refs.watchVideoPlaylist?.playPreviousVideo()
+      if (this.watchingPlaylist) {
+        this.$refs.watchVideoPlaylist?.playPreviousVideo()
+      } else {
+        const prevQueueVideo = this.$store.getters.getPreviousQueueVideo
+        if (prevQueueVideo) {
+          this.$store.dispatch('playPreviousFromQueue')
+          this.$router.push({ path: `/watch/${prevQueueVideo.videoId}` })
+          showToast(this.$t('Queue.Playing from Queue'))
+        }
+      }
     },
 
     abortAutoplayCountdown: function (hideToast = false) {
