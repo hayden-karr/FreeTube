@@ -200,8 +200,10 @@
         margin-inline: -10px;
 
         .videoPlayer {
-          max-inline-size: none;
-          margin-inline: 0;
+          // Cap height to viewport minus top nav (60px) and router view margins (18px * 2)
+          // then derive max width from 16:9 aspect ratio
+          max-inline-size: calc((100vh - 96px) * (16 / 9));
+          margin-inline: auto;
         }
 
         .videoAreaMargin {
