@@ -14,6 +14,13 @@ const getters = {
     }
     return null
   },
+  getPreviousQueueVideo: (state) => {
+    const prevIndex = state.currentQueueItemIndex - 1
+    if (prevIndex >= 0) {
+      return state.queue[prevIndex]
+    }
+    return null
+  },
 }
 
 const actions = {
@@ -42,6 +49,15 @@ const actions = {
     if (nextIndex < state.queue.length) {
       commit('setCurrentQueueItemIndex', nextIndex)
       return state.queue[nextIndex]
+    }
+    return null
+  },
+
+  playPreviousFromQueue({ state, commit }) {
+    const prevIndex = state.currentQueueItemIndex - 1
+    if (prevIndex >= 0) {
+      commit('setCurrentQueueItemIndex', prevIndex)
+      return state.queue[prevIndex]
     }
     return null
   },

@@ -841,6 +841,18 @@ export default defineComponent({
       }
     },
 
+    addToQueue: function () {
+      this.addVideoToQueue({
+        videoId: this.id,
+        title: this.title,
+        author: this.channelName,
+        authorId: this.channelId,
+        lengthSeconds: this.lengthSeconds,
+        published: this.published,
+      })
+      showToast(this.$t('Video.Added to Queue'))
+    },
+
     hideChannel: function(channelName, channelId) {
       const hiddenChannels = JSON.parse(this.$store.getters.getChannelsHidden)
       hiddenChannels.push({ name: channelId, preferredName: channelName })
