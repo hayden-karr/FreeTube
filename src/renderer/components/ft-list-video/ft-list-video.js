@@ -85,6 +85,14 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    inQueue: {
+      type: Boolean,
+      default: false,
+    },
+    queueItemIndex: {
+      type: Number,
+      default: null,
+    },
   },
   emits: ['move-video-down', 'move-video-up', 'pause-player', 'remove-from-playlist'],
   data: function () {
@@ -511,13 +519,15 @@ export default defineComponent({
 
     watchVideoRouterLink() {
     // For `router-link` attribute `to`
-      if (!this.externalPlayerIsDefaultViewingMode) {
-        return {
-          path: `/watch/${this.id}`,
-          query: this.watchPageLinkQuery,
-        }
-      } else {
+      if (this.externalPlayerIsDefaultViewingMode) {
         return {}
+      }
+      if (this.inQueue || this.$store.getters.getQueueCount > 0) {
+        return {}
+      }
+      return {
+        path: `/watch/${this.id}`,
+        query: this.watchPageLinkQuery,
       }
     },
 
@@ -579,9 +589,32 @@ export default defineComponent({
     }
   },
   methods: {
-    handleWatchPageLinkClick: function() {
+    handleWatchPageLinkClick: function(event) {
       if (this.externalPlayerIsDefaultViewingMode) {
         this.handleExternalPlayer()
+        return
+      }
+
+      if (this.inQueue) {
+        event.preventDefault()
+        if (this.queueItemIndex !== null) {
+          this.jumpToQueueItem(this.queueItemIndex)
+        }
+        this.$router.push({ path: `/watch/${this.id}` })
+        return
+      }
+
+      if (this.$store.getters.getQueueCount > 0) {
+        event.preventDefault()
+        this.insertVideoAfterCurrent({
+          videoId: this.id,
+          title: this.title,
+          author: this.channelName,
+          authorId: this.channelId,
+          lengthSeconds: this.lengthSeconds,
+          published: this.published,
+        })
+        this.$router.push({ path: `/watch/${this.id}` })
       }
     },
     fetchDeArrowThumbnail: async function() {
@@ -930,6 +963,8 @@ export default defineComponent({
       'addVideo',
       'removeVideo',
       'addVideoToQueue',
+      'insertVideoAfterCurrent',
+      'jumpToQueueItem',
     ])
   }
 })

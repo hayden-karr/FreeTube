@@ -364,10 +364,12 @@ $watched-transition-duration: 0.5s;
   }
 
   @media (hover: hover) {
+    &:hover .addToQueueIcon,
     &:hover .quickBookmarkVideoIcon:not(.alwaysVisible),
     .quickBookmarkVideoIcon.bookmarked:not(.alwaysVisible),
     &:hover .addToPlaylistIcon:not(.alwaysVisible),
     &:hover .externalPlayerIcon,
+    &:has(:focus-visible) .addToQueueIcon,
     &:has(:focus-visible) .addToPlaylistIcon:not(.alwaysVisible),
     &:has(:focus-visible) .quickBookmarkVideoIcon:not(.alwaysVisible),
     &:has(:focus-visible) .externalPlayerIcon {
@@ -381,6 +383,7 @@ $watched-transition-duration: 0.5s;
       opacity: 1;
     }
 
+    .addToQueueIcon,
     .quickBookmarkVideoIcon:not(.alwaysVisible),
     .addToPlaylistIcon:not(.alwaysVisible),
     .externalPlayerIcon,

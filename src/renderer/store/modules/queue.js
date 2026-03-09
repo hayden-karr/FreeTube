@@ -61,6 +61,27 @@ const actions = {
     }
     return null
   },
+
+  insertVideoAfterCurrent({ state, commit }, videoData) {
+    const insertIndex = Math.max(0, state.currentQueueItemIndex + 1)
+    commit('insertIntoQueue', {
+      video: {
+        videoId: videoData.videoId,
+        title: videoData.title,
+        author: videoData.author,
+        authorId: videoData.authorId,
+        lengthSeconds: videoData.lengthSeconds,
+        published: videoData.published,
+        timeAdded: Date.now(),
+      },
+      index: insertIndex,
+    })
+    commit('setCurrentQueueItemIndex', insertIndex)
+  },
+
+  jumpToQueueItem({ commit }, index) {
+    commit('setCurrentQueueItemIndex', index)
+  },
 }
 
 const mutations = {
@@ -91,6 +112,19 @@ const mutations = {
   reorderQueue(state, { fromIndex, toIndex }) {
     const item = state.queue.splice(fromIndex, 1)[0]
     state.queue.splice(toIndex, 0, item)
+
+    const cur = state.currentQueueItemIndex
+    if (cur === fromIndex) {
+      state.currentQueueItemIndex = toIndex
+    } else if (fromIndex < toIndex && cur > fromIndex && cur <= toIndex) {
+      state.currentQueueItemIndex = cur - 1
+    } else if (fromIndex > toIndex && cur >= toIndex && cur < fromIndex) {
+      state.currentQueueItemIndex = cur + 1
+    }
+  },
+
+  insertIntoQueue(state, { video, index }) {
+    state.queue.splice(index, 0, video)
   },
 }
 
