@@ -38,8 +38,12 @@ export default defineComponent({
       return 0
     },
 
+    isWatchPage() {
+      return this.$route.path.startsWith('/watch')
+    },
+
     visible() {
-      return !this.dismissed && this.queueCount > 0 && this.activeVideo !== null
+      return !this.dismissed && this.queueCount > 0 && this.activeVideo !== null && !this.isWatchPage
     },
 
     backendPreference() {
