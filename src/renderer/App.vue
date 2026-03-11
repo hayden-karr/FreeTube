@@ -104,6 +104,7 @@
     <FtCreatePlaylistPrompt
       v-if="showCreatePlaylistPrompt"
     />
+    <QueueFloater />
     <FtToast />
     <FtProgressBar
       v-if="showProgressBar"
@@ -129,6 +130,7 @@ import FtPlaylistAddVideoPrompt from './components/FtPlaylistAddVideoPrompt/FtPl
 import FtCreatePlaylistPrompt from './components/FtCreatePlaylistPrompt/FtCreatePlaylistPrompt.vue'
 import FtKeyboardShortcutPrompt from './components/FtKeyboardShortcutPrompt/FtKeyboardShortcutPrompt.vue'
 import FtSearchFilters from './components/FtSearchFilters/FtSearchFilters.vue'
+import QueueFloater from './components/QueueFloater/QueueFloater.vue'
 
 import store from './store/index'
 

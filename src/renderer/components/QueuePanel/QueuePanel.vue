@@ -11,20 +11,22 @@
         v-if="queueCount > 0"
         class="queueHeaderButtons"
       >
-        <button
-          class="queueHeaderButton"
+        <ft-icon-button
           :title="$t('Queue.Save to Playlist')"
+          :icon="['fas', 'plus']"
+          :padding="6"
+          :size="14"
+          theme="base"
           @click="saveToPlaylist"
-        >
-          {{ $t('Queue.Save to Playlist') }}
-        </button>
-        <button
-          class="queueHeaderButton"
+        />
+        <ft-icon-button
           :title="$t('Queue.Clear Queue')"
+          :icon="['fas', 'trash']"
+          :padding="6"
+          :size="14"
+          theme="base"
           @click="clearAll"
-        >
-          {{ $t('Queue.Clear Queue') }}
-        </button>
+        />
       </div>
     </div>
     <div

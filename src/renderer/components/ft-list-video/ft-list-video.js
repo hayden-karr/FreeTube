@@ -517,6 +517,14 @@ export default defineComponent({
       return this.isInQuickBookmarkPlaylist ? 'base favorite' : 'base'
     },
 
+    isInQueue: function () {
+      return this.$store.getters.isVideoInQueue(this.id)
+    },
+
+    queueIconTheme: function () {
+      return this.isInQueue ? 'primary' : 'base'
+    },
+
     watchVideoRouterLink() {
     // For `router-link` attribute `to`
       if (this.externalPlayerIsDefaultViewingMode) {
@@ -747,15 +755,7 @@ export default defineComponent({
           this.unhideChannel(this.channelName, this.channelId)
           break
         case 'addToQueue':
-          this.addVideoToQueue({
-            videoId: this.id,
-            title: this.title,
-            author: this.channelName,
-            authorId: this.channelId,
-            lengthSeconds: this.lengthSeconds,
-            published: this.published,
-          })
-          showToast(this.$t('Video.Added to Queue'))
+          this.addToQueue()
           break
       }
     },
@@ -875,6 +875,12 @@ export default defineComponent({
     },
 
     addToQueue: function () {
+      if (this.isInQueue) {
+        const index = this.$store.getters.getQueueIndexForVideo(this.id)
+        this.jumpToQueueItem(index)
+        this.$router.push({ path: `/watch/${this.id}` })
+        return
+      }
       this.addVideoToQueue({
         videoId: this.id,
         title: this.title,
