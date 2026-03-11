@@ -7,6 +7,8 @@ const getters = {
   getQueue: (state) => state.queue,
   getQueueCount: (state) => state.queue.length,
   getCurrentQueueItemIndex: (state) => state.currentQueueItemIndex,
+  isVideoInQueue: (state) => (videoId) => state.queue.some((item) => item.videoId === videoId),
+  getQueueIndexForVideo: (state) => (videoId) => state.queue.findIndex((item) => item.videoId === videoId),
   getNextQueueVideo: (state) => {
     const nextIndex = state.currentQueueItemIndex + 1
     if (nextIndex < state.queue.length) {

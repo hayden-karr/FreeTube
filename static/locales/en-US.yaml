@@ -856,6 +856,7 @@ Video:
   Unhide Channel: Show Channel
   Add to Queue: Add to Queue
   Added to Queue: Added to Queue
+  Already in Queue: Already in Queue
   Views: Views
   Loop Playlist: Loop Playlist
   Shuffle Playlist: Shuffle Playlist
@@ -1220,3 +1221,4 @@ Queue:
   Videos in Queue: '({count})'
   Queue is Empty: Queue is empty
   Save to Playlist: Save to Playlist
+  Dismiss: Dismiss

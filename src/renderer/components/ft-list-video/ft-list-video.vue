@@ -46,8 +46,9 @@
       />
       <span class="playlistIcons">
         <ft-icon-button
-          :title="$t('Video.Add to Queue')"
-          :icon="['fas', 'list']"
+          :title="isInQueue ? $t('Video.Already in Queue') : $t('Video.Add to Queue')"
+          :icon="isInQueue ? ['fas', 'check'] : ['fas', 'list']"
+          :theme="queueIconTheme"
           class="addToQueueIcon"
           :padding="appearance === `watchPlaylistItem` ? 5 : 6"
           :size="appearance === `watchPlaylistItem` ? 14 : 18"
