@@ -7,14 +7,25 @@
           {{ $t('Queue.Videos in Queue', { count: queueCount }) }}
         </span>
       </h3>
-      <button
+      <div
         v-if="queueCount > 0"
-        class="clearQueueButton"
-        :title="$t('Queue.Clear Queue')"
-        @click="clearAll"
+        class="queueHeaderButtons"
       >
-        {{ $t('Queue.Clear Queue') }}
-      </button>
+        <button
+          class="queueHeaderButton"
+          :title="$t('Queue.Save to Playlist')"
+          @click="saveToPlaylist"
+        >
+          {{ $t('Queue.Save to Playlist') }}
+        </button>
+        <button
+          class="queueHeaderButton"
+          :title="$t('Queue.Clear Queue')"
+          @click="clearAll"
+        >
+          {{ $t('Queue.Clear Queue') }}
+        </button>
+      </div>
     </div>
     <div
       v-if="queueCount === 0"
@@ -30,7 +41,17 @@
         v-for="(item, index) in queue"
         :key="item.videoId + '-' + item.timeAdded"
         class="queueItem"
-        :class="{ currentQueueItem: index === currentIndex }"
+        :class="{
+          currentQueueItem: index === currentIndex,
+          dragging: index === draggingIndex,
+          dragOver: index === dragOverIndex && index !== draggingIndex
+        }"
+        draggable="true"
+        @dragstart="onDragStart($event, index)"
+        @dragover="onDragOver($event, index)"
+        @dragleave="onDragLeave"
+        @drop="onDrop($event, index)"
+        @dragend="onDragEnd"
       >
         <p class="queueIndex">
           <font-awesome-icon
@@ -47,15 +68,18 @@
           force-list-type="list"
           appearance="watchPlaylistItem"
           :quick-bookmark-button-enabled="false"
+          :in-queue="true"
+          :queue-item-index="index"
         />
-        <ft-icon-button
-          :title="$t('Queue.Remove from Queue')"
-          :icon="['fas', 'times']"
-          class="removeFromQueueButton"
-          :padding="5"
-          :size="14"
-          @click="removeItem(index)"
-        />
+        <div class="queueItemActions">
+          <ft-icon-button
+            :title="$t('Queue.Remove from Queue')"
+            :icon="['fas', 'times']"
+            :padding="4"
+            :size="12"
+            @click="removeItem(index)"
+          />
+        </div>
       </div>
     </div>
   </ft-card>

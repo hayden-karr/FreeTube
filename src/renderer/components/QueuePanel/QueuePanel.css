@@ -19,7 +19,13 @@
   color: var(--tertiary-text-color);
 }
 
-.clearQueueButton {
+.queueHeaderButtons {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.queueHeaderButton {
   cursor: pointer;
   background-color: transparent;
   border: 1px solid var(--primary-border-color);
@@ -32,7 +38,7 @@
   white-space: nowrap;
 }
 
-.clearQueueButton:hover {
+.queueHeaderButton:hover {
   background-color: var(--side-nav-hover-color);
   color: var(--side-nav-hover-text-color);
   transition: background 0.2s ease-in;
@@ -56,6 +62,7 @@
   grid-template-columns: 30px 1fr;
   align-items: center;
   transition: background 0.2s ease-out;
+  cursor: grab;
 }
 
 .queueItem:not(:last-child) {
@@ -66,6 +73,14 @@
   background-color: var(--side-nav-hover-color);
   color: var(--side-nav-hover-text-color);
   transition: background 0.2s ease-in;
+}
+
+.queueItem.dragging {
+  opacity: 0.4;
+}
+
+.queueItem.dragOver {
+  border-block-start: 2px solid var(--primary-color);
 }
 
 .currentQueueItem {
@@ -83,15 +98,18 @@
   font-size: 0.75em;
 }
 
-.removeFromQueueButton {
+.queueItemActions {
   position: absolute;
   inset-inline-end: 4px;
   inset-block-start: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   opacity: 0;
   transition: opacity 0.2s ease-out;
 }
 
-.queueItem:hover .removeFromQueueButton {
+.queueItem:hover .queueItemActions {
   opacity: 1;
   transition: opacity 0.2s ease-in;
 }
