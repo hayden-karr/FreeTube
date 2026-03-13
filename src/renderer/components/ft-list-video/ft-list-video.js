@@ -530,7 +530,7 @@ export default defineComponent({
       if (this.externalPlayerIsDefaultViewingMode) {
         return {}
       }
-      if (this.inQueue || this.$store.getters.getQueueCount > 0) {
+      if ((this.inQueue || this.$store.getters.getQueueCount > 0) && !this.playlistIdFinal) {
         return {}
       }
       return {
@@ -612,7 +612,7 @@ export default defineComponent({
         return
       }
 
-      if (this.$store.getters.getQueueCount > 0) {
+      if (this.$store.getters.getQueueCount > 0 && !this.playlistIdFinal) {
         event.preventDefault()
         this.insertVideoAfterCurrent({
           videoId: this.id,
