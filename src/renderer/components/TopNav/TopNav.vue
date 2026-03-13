@@ -6,6 +6,7 @@
     <div class="side">
       <button
         class="menuButton navButton"
+        :class="{ showOnMobile: hideSideBar }"
         :aria-label="expandCollapseSideBarLabel"
         :title="expandCollapseSideBarLabel"
         @click="toggleSideNav"
@@ -155,6 +156,8 @@ const hideHeaderLogo = computed(() => store.getters.getHideHeaderLogo)
 const enableSearchSuggestions = computed(() => store.getters.getEnableSearchSuggestions)
 /** @type {import('vue').ComputedRef<string>} */
 const barColor = computed(() => store.getters.getBarColor)
+
+const hideSideBar = computed(() => store.getters.getHideSideBar)
 
 const expandCollapseSideBarLabel = computed(() => {
   if (store.getters.getHideSideBar) {

@@ -42,6 +42,10 @@
 .menuButton {
   @media only screen and (width <= 680px) {
     display: none;
+
+    &.showOnMobile {
+      display: block;
+    }
   }
 }
 
