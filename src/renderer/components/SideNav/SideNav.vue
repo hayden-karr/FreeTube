@@ -1,7 +1,7 @@
 <template>
   <FtFlexBox
     class="sideNav"
-    :class="[{closed: !isOpen && !hideSideBar, hidden: isHidden}, applyHiddenLabels]"
+    :class="[{closed: (!isOpen && !hideSideBar) || (isOpen && hideSideBar), hidden: isHidden}, applyHiddenLabels]"
     role="navigation"
   >
     <div
