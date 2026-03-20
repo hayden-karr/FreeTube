@@ -263,7 +263,7 @@ export default defineComponent({
 
     watch(displayVideoPlayButton, (newValue) => {
       ui.configure({
-        addBigPlayButton: newValue
+        bigButtons: newValue ? ['play_pause'] : []
       })
     })
 
@@ -620,7 +620,6 @@ export default defineComponent({
           // This only affects the "auto" quality, users can still manually select whatever quality they want.
           restrictToElementSize: true
         },
-        autoShowText: shaka.config.AutoShowText.NEVER,
 
         // Prioritise variants that are predicted to play:
         // - `smooth`: without dropping frames
@@ -912,9 +911,21 @@ export default defineComponent({
           volumeBarColors: {
             level: 'var(--primary-color)'
           },
+          mediaSession: {
+            // The WatchVideoInfo component handles that
+            handleMetadata: false,
+            // Need to override the default list so it doesn't override the next and previous video handlers in the WatchVideoPlaylist component.
+            supportedActions: [
+              'pause',
+              'play',
+              'seekbackward',
+              'seekforward',
+              'seekto'
+            ]
+          },
 
           // these have their own watchers
-          addBigPlayButton: displayVideoPlayButton.value,
+          bigButtons: displayVideoPlayButton.value ? ['play_pause'] : [],
           enableFullscreenOnRotation: enterFullscreenOnDisplayRotate.value,
           playbackRates: playbackRates.value,
           tapSeekDistance: defaultSkipInterval.value,
@@ -924,7 +935,13 @@ export default defineComponent({
 
           // TODO: enable this when electron gets document PiP support
           // https://github.com/electron/electron/issues/39633
-          preferDocumentPictureInPicture: false
+          documentPictureInPicture: {
+            enabled: false
+          }
+        }
+
+        if (document.pictureInPictureEnabled) {
+          firstTimeConfig.mediaSession.supportedActions.push('enterpictureinpicture')
         }
 
         // Combine the config objects so we only need to do one configure call
@@ -2325,16 +2342,23 @@ export default defineComponent({
             showValueChange(message, messageIcon)
           }
           break
-        case KeyboardShortcuts.VIDEO_PLAYER.GENERAL.CAPTIONS:
+        case KeyboardShortcuts.VIDEO_PLAYER.GENERAL.CAPTIONS: {
           // Toggle caption/subtitles
-          if (player.getTextTracks().length > 0) {
+
+          const textTracks = player.getTextTracks()
+          if (textTracks.length > 0) {
             event.preventDefault()
 
-            const currentlyVisible = player.isTextTrackVisible()
-            player.setTextTrackVisibility(!currentlyVisible)
+            if (textTracks.some(track => track.active)) {
+              player.selectTextTrack(null)
+            } else {
+              player.selectTextTrack(textTracks[0])
+            }
+
             showOverlayControls()
           }
           break
+        }
         case KeyboardShortcuts.VIDEO_PLAYER.GENERAL.VOLUME_UP:
           // Increase volume
           event.preventDefault()
@@ -2943,8 +2967,6 @@ export default defineComponent({
 
         if (textTrack) {
           player.selectTextTrack(textTrack)
-
-          await player.setTextTrackVisibility(true)
         }
       }
 
@@ -3002,12 +3024,12 @@ export default defineComponent({
 
         const activeCaptionIndex = player.getTextTracks().findIndex(caption => caption.active)
 
-        if (activeCaptionIndex >= 0 && player.isTextTrackVisible()) {
+        if (activeCaptionIndex >= 0) {
           restoreCaptionIndex = activeCaptionIndex
 
           // hide captions before switching as shaka/the browser doesn't clean up the displayed captions
           // when switching away from the legacy formats
-          await player.setTextTrackVisibility(false)
+          player.selectTextTrack(null)
         } else {
           restoreCaptionIndex = null
         }
@@ -3057,7 +3079,14 @@ export default defineComponent({
 
             if (useAutoQuality) {
               if (label) {
-                player.selectVariantsByLabel(label)
+                const audioTracks = deduplicateAudioTracks(player.getAudioTracks()).values()
+
+                for (const track of audioTracks) {
+                  if (label === track.label) {
+                    player.selectAudioTrack(track)
+                    break
+                  }
+                }
               }
             } else {
               if (dimension) {
